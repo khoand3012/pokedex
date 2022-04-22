@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import Details from "./components/Details/Details";
+import ListPkm from "./components/ListPkm/ListPkm";
+import ImagePkm from "./components/ImagePkm/ImagePkm";
+import axios from "axios";
+import { AppConfigProvider } from "./contexts/AppContext";
 
 function App() {
+  const [pkmList, setPkmList] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://pokeapi.co/api/v2/pokemon").then((response) => {
+      const dex = response.data.results;
+      setPkmList(dex);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppConfigProvider value={pkmList}>
+        <div className="container-lg">
+          <Details />
+          <div className="container-sm">
+            <ImagePkm />
+            <ListPkm />
+          </div>
+        </div>
+      </AppConfigProvider>
     </div>
   );
 }

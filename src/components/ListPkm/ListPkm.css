@@ -1,0 +1,5 @@
+.listPkm {
+  border: 1px black solid;
+  height: 70%;
+  overflow-y: scroll;
+}
